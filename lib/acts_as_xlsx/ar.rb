@@ -96,7 +96,7 @@ module Axlsx
       end
 
       def to_xlsx_ar(options = {})
-        self.to_xlsx
+        self.to_xlsx(options)
       end
 
     end
