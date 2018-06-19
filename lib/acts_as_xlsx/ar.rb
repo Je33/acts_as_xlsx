@@ -90,6 +90,11 @@ module Axlsx
         end
         p
       end
+
+      def to_xlsx_ar(options = {})
+        self.to_xlsx
+      end
+
     end
   end
 end
