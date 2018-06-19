@@ -45,7 +45,7 @@ module Axlsx
       # @option options [String] i18n The path to i18n attributes. (usually activerecord.attributes)
       # @option options [Package] package An Axlsx::Package. When this is provided the output will be added to the package as a new sheet.  # @option options [String] name This will be used to name the worksheet added to the package. If it is not provided the name of the table name will be humanized when i18n is not specified or the I18n.t for the table name.
       # @see Worksheet#add_row
-      def to_xlsx(options = {})
+      def to_xlsx_ar(options = {})
         if self.xlsx_columns.nil?
           self.xlsx_columns = self.column_names.map { |c| c = c.to_sym }
         end
@@ -94,11 +94,6 @@ module Axlsx
         end
         p
       end
-
-      def to_xlsx_ar(options = {})
-        self.to_xlsx(options)
-      end
-
     end
   end
 end
