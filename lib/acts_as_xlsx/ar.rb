@@ -62,7 +62,11 @@ module Axlsx
         header_style = p.workbook.styles.add_style(header_style) unless header_style.nil?
         i18n = self.xlsx_i18n == true ? 'activerecord.attributes' : i18n
         sheet_name = options.delete(:name) || (i18n ? I18n.t("#{i18n}.#{table_name.underscore}") : table_name.humanize) 
-        data = options.delete(:data) || [*find(:all, options)]
+        if Rails.version[0] >= '4'
+          data = options.delete(:data) || where(options[:where]).order(options[:order]).to_a
+        else
+          data = options.delete(:data) || [*find(:all, options)]
+        end
         data.compact!
         data.flatten!
 
@@ -80,7 +84,7 @@ module Axlsx
           data.each do |r|
             row_data = columns.map do |c|
               if c.to_s =~ /\./
-                v = r; c.to_s.split('.').each { |method| v = v.send(method) }; v
+                v = r; c.to_s.split('.').each { |method| !v.nil? ? v = v.send(method) : v = ""; }; v
               else
                 r.send(c)                
               end
